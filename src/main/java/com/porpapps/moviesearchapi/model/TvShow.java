@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties({"popularity"})
+@Deprecated
 public class TvShow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

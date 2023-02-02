@@ -19,6 +19,7 @@ import jakarta.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode
 @JsonIgnoreProperties({"adult", "video", "popularity"})
+@Deprecated
 public class Movie {
     @Id
     @Column(name = "id", nullable = false)

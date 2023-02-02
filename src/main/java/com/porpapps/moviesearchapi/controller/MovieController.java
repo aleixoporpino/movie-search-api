@@ -25,7 +25,6 @@ public class MovieController {
     private final TheMovieDbClient movieDbClient;
     @Value("${moviedb.api.key}")
     private String movieDBApiKey;
-    private final MovieRepository movieRepository;
 
     @GetMapping("/name/{movieName}")
     public QueryResult findMoviesByName(@PathVariable String movieName) {
