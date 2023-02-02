@@ -12,7 +12,6 @@
 **/.mtj.tmp
 
 # Package Files #
-**/*.jar
 **/*.war
 **/*.nar
 **/*.ear
@@ -25,9 +24,7 @@
 
 **/src/main/resources/application-local.properties
 
-**/target
 !**/.mvn/wrapper/maven-wrapper.jar
-!**/**/src/main/**/target
 !**/**/src/test/**/target
 **/.DS_Store
 

@@ -5,6 +5,7 @@ on:
       - master
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  MOVIE_DB_API_KEY: ${{ secrets.MOVIE_DB_API_KEY }}
 jobs:
   deploy:
     name: Deploy app
@@ -16,6 +17,8 @@ jobs:
         with:
           java-version: 17
 
+      - name: Change moviedb api key
+        run: sed -i 's|moviedb.api.key.*|moviedb.api.key=$MOVIE_DB_API_KEY |g' src/main/resources/application.properties
       - name: Build project with Maven
         run: mvn -B package --file pom.xml
       - uses: superfly/flyctl-actions/setup-flyctl@master
