@@ -1,0 +1,22 @@
+name: Fly Deploy
+on:
+  push:
+    branches:
+      - master
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Build project with Maven
+        run: mvn -B package --file pom.xml
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
