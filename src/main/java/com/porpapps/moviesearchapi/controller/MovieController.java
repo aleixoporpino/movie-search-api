@@ -7,20 +7,19 @@ import com.porpapps.moviesearchapi.repository.MovieRepository;
 import com.porpapps.moviesearchapi.service.MovieService;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/movies")
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"${cross.origin.url}"})
 public class MovieController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MovieController.class);
-
     private final MovieService movieService;
     private final TheMovieDbClient movieDbClient;
     @Value("${moviedb.api.key}")
@@ -28,21 +27,21 @@ public class MovieController {
 
     @GetMapping("/name/{movieName}")
     public QueryResult findMoviesByName(@PathVariable String movieName) {
-        LOG.info("findMoviesByName : {}", movieName);
+        log.info("findMoviesByName : {}", movieName);
         return movieDbClient.searchMovieByName(movieDBApiKey, movieName);
     }
 
     @GetMapping("/{movieId}")
     public Provider findProvidersByMovieId(@PathVariable Integer movieId,
                                            @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate) {
-        LOG.info("findProvidersByMovieId : {} {}", movieId, isFlatrate);
+        log.info("findProvidersByMovieId : {} {}", movieId, isFlatrate);
         //Movie movie = movieService.findById(movieId);
         Provider provider;
         try {
             provider = movieDbClient.searchMovieProvider(movieDBApiKey, movieId);
         } catch (FeignException e) {
             if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                LOG.info("findProvidersByTvShowId: TV Show not found with id: {}", movieId);
+                log.info("findProvidersByTvShowId: TV Show not found with id: {}", movieId);
                 return new Provider();
             }
             throw e;

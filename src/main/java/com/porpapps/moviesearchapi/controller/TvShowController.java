@@ -5,20 +5,19 @@ import com.porpapps.moviesearchapi.client.model.Provider;
 import com.porpapps.moviesearchapi.client.model.QueryResult;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/tv-shows")
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"${cross.origin.url}"})
 public class TvShowController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(TvShowController.class);
-
     //private final TvShowService tvShowService;
     private final TheMovieDbClient movieDbClient;
     @Value("${moviedb.api.key}")
@@ -26,21 +25,21 @@ public class TvShowController {
 
     @GetMapping("/name/{tvShowName}")
     public QueryResult findTvShowsByName(@PathVariable String tvShowName) {
-        LOG.info("findTvShowsByName : {}", tvShowName);
+        log.info("findTvShowsByName : {}", tvShowName);
         return movieDbClient.searchTvShowByName(movieDBApiKey, tvShowName);
     }
 
     @GetMapping("/{tvShowId}")
     public Provider findProvidersByTvShowId(@PathVariable Integer tvShowId,
                                             @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate) {
-        LOG.info("findProvidersByTvShowId : {} {}", tvShowId, isFlatrate);
+        log.info("findProvidersByTvShowId : {} {}", tvShowId, isFlatrate);
         //TvShow tvShow = tvShowService.findById(tvShowId);
         Provider provider;
         try {
             provider = movieDbClient.searchTvShowProvider(movieDBApiKey, tvShowId);
         } catch (FeignException e) {
             if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                LOG.info("findProvidersByTvShowId: TV Show not found with id : {}", tvShowId);
+                log.info("findProvidersByTvShowId: TV Show not found with id : {}", tvShowId);
                 return new Provider();
             }
             throw e;
