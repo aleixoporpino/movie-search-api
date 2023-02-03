@@ -2,6 +2,8 @@ package com.porpapps.moviesearchapi.controller;
 
 import com.porpapps.moviesearchapi.model.Quote;
 import com.porpapps.moviesearchapi.service.QuoteService;
+import com.porpapps.moviesearchapi.utils.LogUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -22,8 +24,8 @@ public class QuoteController {
     private final QuoteService quoteService;
 
     @GetMapping("/random")
-    public Quote findRandomQuote() {
-        log.info("findRandomQuote");
+    public Quote findRandomQuote(HttpServletRequest request) {
+        LogUtils.info(log, request, "findRandomQuote");
         return quoteService.findRandomQuote();
     }
 }

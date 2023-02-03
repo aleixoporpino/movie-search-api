@@ -3,7 +3,9 @@ package com.porpapps.moviesearchapi.controller;
 import com.porpapps.moviesearchapi.client.TheMovieDbClient;
 import com.porpapps.moviesearchapi.client.model.Provider;
 import com.porpapps.moviesearchapi.client.model.QueryResult;
+import com.porpapps.moviesearchapi.utils.LogUtils;
 import feign.FeignException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -24,22 +26,23 @@ public class TvShowController {
     private String movieDBApiKey;
 
     @GetMapping("/name/{tvShowName}")
-    public QueryResult findTvShowsByName(@PathVariable String tvShowName) {
-        log.info("findTvShowsByName : {}", tvShowName);
+    public QueryResult findTvShowsByName(@PathVariable String tvShowName, HttpServletRequest request) {
+        LogUtils.info(log, request, String.format("findTvShowsByName : %s", tvShowName));
         return movieDbClient.searchTvShowByName(movieDBApiKey, tvShowName);
     }
 
     @GetMapping("/{tvShowId}")
     public Provider findProvidersByTvShowId(@PathVariable Integer tvShowId,
-                                            @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate) {
-        log.info("findProvidersByTvShowId : {} {}", tvShowId, isFlatrate);
+                                            @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate,
+                                            HttpServletRequest request) {
+        LogUtils.info(log, request, String.format("findProvidersByTvShowId : %s %s", tvShowId, isFlatrate));
         //TvShow tvShow = tvShowService.findById(tvShowId);
         Provider provider;
         try {
             provider = movieDbClient.searchTvShowProvider(movieDBApiKey, tvShowId);
         } catch (FeignException e) {
             if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                log.info("findProvidersByTvShowId: TV Show not found with id : {}", tvShowId);
+                LogUtils.info(log, request, String.format("findProvidersByTvShowId: TV Show not found with id : %s", tvShowId));
                 return new Provider();
             }
             throw e;

@@ -3,13 +3,12 @@ package com.porpapps.moviesearchapi.controller;
 import com.porpapps.moviesearchapi.client.TheMovieDbClient;
 import com.porpapps.moviesearchapi.client.model.Provider;
 import com.porpapps.moviesearchapi.client.model.QueryResult;
-import com.porpapps.moviesearchapi.repository.MovieRepository;
 import com.porpapps.moviesearchapi.service.MovieService;
+import com.porpapps.moviesearchapi.utils.LogUtils;
 import feign.FeignException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +25,23 @@ public class MovieController {
     private String movieDBApiKey;
 
     @GetMapping("/name/{movieName}")
-    public QueryResult findMoviesByName(@PathVariable String movieName) {
-        log.info("findMoviesByName : {}", movieName);
+    public QueryResult findMoviesByName(@PathVariable String movieName, HttpServletRequest request) {
+        LogUtils.info(log, request, String.format("findMoviesByName : %s", movieName));
         return movieDbClient.searchMovieByName(movieDBApiKey, movieName);
     }
 
     @GetMapping("/{movieId}")
     public Provider findProvidersByMovieId(@PathVariable Integer movieId,
-                                           @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate) {
-        log.info("findProvidersByMovieId : {} {}", movieId, isFlatrate);
+                                           @RequestParam(name = "showStreamingOnly", required = false) boolean isFlatrate,
+                                           HttpServletRequest request) {
+        LogUtils.info(log, request, String.format("findProvidersByMovieId : %s %s", movieId, isFlatrate));
         //Movie movie = movieService.findById(movieId);
         Provider provider;
         try {
             provider = movieDbClient.searchMovieProvider(movieDBApiKey, movieId);
         } catch (FeignException e) {
             if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                log.info("findProvidersByTvShowId: TV Show not found with id: {}", movieId);
+                LogUtils.info(log, request, String.format("findProvidersByMovieId: TV Show not found with id: %s", movieId));
                 return new Provider();
             }
             throw e;
