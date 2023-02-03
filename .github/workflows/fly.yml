@@ -10,6 +10,7 @@ env:
 jobs:
   pre-deploy:
     name: Configure application properties
+    runs-on: ubuntu-latest
     steps:
       - name: Remove server port property
         run: sed -i 's|server.port.*| |g' src/main/resources/application.properties
