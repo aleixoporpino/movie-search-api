@@ -19,11 +19,11 @@ jobs:
           java-version: 17
 
       - name: Remove server port property
-        run: sed -i 's|server.port.*| |g' src/main/resources/application.properties
+        run: sed -i "s|server.port.*||g" src/main/resources/application.properties
       - name: Change moviedb api key
         run: sed -i "s|moviedb.api.key.*|moviedb.api.key=$MOVIE_DB_API_KEY|g" src/main/resources/application.properties
       - name: Change app cross origin url
-        run: sed -i 's|cross.origin.url.*|cross.origin.url=$CLIENT_URL|g' src/main/resources/application.properties
+        run: sed -i "s|cross.origin.url.*|cross.origin.url=$CLIENT_URL|g" src/main/resources/application.properties
       - name: Build project with Maven
         run: mvn -B package --file pom.xml
       - uses: superfly/flyctl-actions/setup-flyctl@master
