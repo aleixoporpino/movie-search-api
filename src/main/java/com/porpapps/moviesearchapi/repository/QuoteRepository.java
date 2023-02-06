@@ -1,3 +1,4 @@
+/*
 package com.porpapps.moviesearchapi.repository;
 
 import com.porpapps.moviesearchapi.model.Quote;
@@ -11,3 +12,4 @@ public interface QuoteRepository extends CrudRepository<Quote, Integer> {
     @Query("SELECT count(q) FROM Quote q")
     long count();
 }
+*/

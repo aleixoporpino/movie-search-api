@@ -1,3 +1,4 @@
+/*
 package com.porpapps.moviesearchapi.service;
 
 import com.porpapps.moviesearchapi.model.Movie;
@@ -20,3 +21,4 @@ public class MovieService {
         return movieRepository.findById(id).orElse(new Movie(id, ""));
     }
 }
+*/

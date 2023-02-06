@@ -1,3 +1,4 @@
+/*
 package com.porpapps.moviesearchapi.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
@@ -27,3 +28,4 @@ public class TvShow {
     @JsonAlias(value = "original_name")
     private String originalName;
 }
+*/

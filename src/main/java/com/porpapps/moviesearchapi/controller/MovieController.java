@@ -3,7 +3,6 @@ package com.porpapps.moviesearchapi.controller;
 import com.porpapps.moviesearchapi.client.TheMovieDbClient;
 import com.porpapps.moviesearchapi.client.model.Provider;
 import com.porpapps.moviesearchapi.client.model.QueryResult;
-import com.porpapps.moviesearchapi.service.MovieService;
 import com.porpapps.moviesearchapi.utils.LogUtils;
 import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"${cross.origin.url}"})
 public class MovieController {
-    private final MovieService movieService;
+    //private final MovieService movieService;
     private final TheMovieDbClient movieDbClient;
     @Value("${moviedb.api.key}")
     private String movieDBApiKey;

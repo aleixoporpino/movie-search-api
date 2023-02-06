@@ -1,3 +1,4 @@
+/*
 package com.porpapps.moviesearchapi.repository;
 
 import com.porpapps.moviesearchapi.model.Movie;
@@ -9,3 +10,4 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     List<Movie> findAllByOriginalTitleContainingIgnoreCaseOrderByOriginalTitle(String originalTitle);
 }
+*/

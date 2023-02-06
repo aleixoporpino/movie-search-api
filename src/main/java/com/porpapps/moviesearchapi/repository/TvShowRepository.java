@@ -1,3 +1,4 @@
+/*
 package com.porpapps.moviesearchapi.repository;
 
 import com.porpapps.moviesearchapi.model.TvShow;
@@ -9,3 +10,4 @@ public interface TvShowRepository extends CrudRepository<TvShow, Integer> {
 
     List<TvShow> findAllByOriginalNameContainingIgnoreCaseOrderByOriginalName(String originalName);
 }
+*/
